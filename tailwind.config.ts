@@ -13,10 +13,17 @@ const config = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        sm: "600px",
-        "2xl": "1400px",
-      },
+    },
+    screens: {
+      small: { max: "380px" },
+      "min-small": { min: "380px" },
+      mobile: { max: "450px" },
+      lg: { min: "450px" },
+      "max-sm": { max: "600px" },
+      "max-xl": { max: "715px" },
+      xl: { min: "715px" },
+      sm: "600px",
+      "2xl": "1400px",
     },
     extend: {
       colors: {
@@ -70,8 +77,8 @@ const config = {
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        "accordion-down": "accordion-down 0.5s ease-in-out",
+        "accordion-up": "accordion-up 0.5s ease-in-out",
       },
     },
   },

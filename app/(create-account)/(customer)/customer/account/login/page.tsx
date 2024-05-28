@@ -108,7 +108,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <div className="hidden bg-muted lg:block h-screen"></div>
+      <div className="bg-muted mobile:hidden h-screen"></div>
     </div>
   );
 }

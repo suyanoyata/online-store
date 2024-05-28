@@ -16,7 +16,7 @@ interface StoreState {
 }
 
 const useStore = create<StoreState>((set) => ({
-  auth_state: AuthState.PENDING,
+  auth_state: AuthState.UNAUTHENTICATED,
   credentials: null,
   account_type: null,
   setAuthState: (state: AuthState) => set({ auth_state: state }),

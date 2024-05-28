@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  width: 0;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -49,6 +53,12 @@
   }
 }
 
+@layer components {
+  .accordion-image {
+    @apply h-16 w-16 bg-zinc-100 rounded-sm mr-3 items-center justify-center flex overflow-hidden;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -72,5 +82,26 @@ li {
   }
   to {
     opacity: 1;
+  }
+}
+
+.fadeOut {
+  animation-delay: 0s;
+  animation: fadeOut 1s linear forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  49% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    display: none;
   }
 }

@@ -1,4 +1,3 @@
-import Header from "@/app/components/Header.component";
 import { Button } from "@/components/ui/button";
 import { experiments } from "@/constants/constants";
 import Link from "next/link";
@@ -10,7 +9,6 @@ export default function Page() {
 
   return (
     <>
-      <Header />
       <main className="mx-auto max-w-[900px] px-3">
         <h1 className="text-2xl font-bold mt-2">Розділ для продавців</h1>
         <p className="text-sm font-medium mt-2 text-zinc-800">

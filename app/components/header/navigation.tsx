@@ -1,15 +1,6 @@
 "use client";
 
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-
-import {
   Sheet,
   SheetContent,
   SheetDescription,
@@ -18,40 +9,49 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
 import { header_routes } from "@/constants/header.routes";
 import { MenuIcon } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function HeaderNavigation() {
   const LargeScreenContent = () => {
+    const [open, setOpen] = useState<boolean>(false);
+
     return (
       <div className="hidden sm:flex">
-        <NavigationMenu className="ml-2">
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Комплектуючі</NavigationMenuTrigger>
-              <NavigationMenuContent className="min-w-[240px] min-h-[240px] p-2 flex flex-wrap justify-evenly">
-                {header_routes.map((route) => (
-                  <Link
-                    key={route.url}
-                    href={route.url}
-                    className="text-sm font-medium hover:underline cursor-pointer h-5 antialiased"
-                  >
-                    {route.title}
-                  </Link>
-                ))}
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-        <NavigationMenu className="ml-2">
-          <NavigationMenuItem>
-            <NavigationMenuTrigger disabled>Збірка</NavigationMenuTrigger>
-            <NavigationMenuContent className="min-w-[240px] min-h-[240px]">
-              <NavigationMenuLink></NavigationMenuLink>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        </NavigationMenu>
+        <HoverCard
+          openDelay={50}
+          closeDelay={50}
+          open={open}
+          onOpenChange={setOpen}
+        >
+          <HoverCardTrigger
+            onClick={() => {
+              setOpen(!open);
+            }}
+            className="text-sm cursor-default select-none"
+          >
+            Комплектуючі
+          </HoverCardTrigger>
+          <HoverCardContent className="p-2 flex flex-wrap justify-evenly">
+            {header_routes.map((route) => (
+              <Link
+                key={route.url}
+                href={route.url}
+                className="text-sm font-medium hover:underline cursor-pointer h-5 antialiased"
+              >
+                {route.title}
+              </Link>
+            ))}
+          </HoverCardContent>
+        </HoverCard>
       </div>
     );
   };
@@ -59,17 +59,25 @@ export default function HeaderNavigation() {
   const SmallScreenContent = () => {
     return (
       <Sheet>
-        <div className="sm:hidden h-[24px] ml-2">
+        <div className="sm:hidden ml-2 h-6">
           <SheetTrigger>
             <MenuIcon />
           </SheetTrigger>
         </div>
         <SheetContent side="left">
           <SheetHeader>
-            <SheetTitle className="mr-auto text-xl font-bold">
+            <SheetTitle className="mr-auto text-2xl font-bold">
               Навігація
             </SheetTitle>
             <SheetDescription className="flex flex-col text-left gap-1">
+              <span className="text-lg font-bold text-black">Основне</span>
+              <Link
+                className="text-md font-medium hover:underline cursor-pointer h-5 antialiased hover:text-black"
+                href="/build"
+              >
+                Збірка
+              </Link>
+              <span className="text-lg font-bold text-black">Комплектуючі</span>
               {header_routes.map((route) => (
                 <Link
                   key={route.url}
@@ -79,6 +87,13 @@ export default function HeaderNavigation() {
                   {route.title}
                 </Link>
               ))}
+              <h2 className="text-lg font-bold text-black">Інше</h2>
+              <Link
+                className="text-md font-medium hover:underline cursor-pointer h-5 antialiased hover:text-black"
+                href="/faq/sellers"
+              >
+                Для продавців
+              </Link>
             </SheetDescription>
           </SheetHeader>
         </SheetContent>
@@ -87,9 +102,9 @@ export default function HeaderNavigation() {
   };
 
   return (
-    <>
+    <div className="items-center h-6 font-medium ml-3">
       <LargeScreenContent />
       <SmallScreenContent />
-    </>
+    </div>
   );
 }

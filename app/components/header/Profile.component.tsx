@@ -1,6 +1,5 @@
 "use client";
 
-import { api } from "@/lib/axios.config";
 import Link from "next/link";
 import { useEffect } from "react";
 
@@ -17,42 +16,28 @@ import { Loader2Icon, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { account_types_strings } from "@/constants/constants";
 
-export const HeaderProfile = () => {
+export const HeaderProfile = ({ store }: { store: ICustomer | null }) => {
   const {
     auth_state,
+    credentials,
     setAuthState,
     setAccountType,
-    credentials,
     setCredentials,
     account_type,
   } = useStore();
 
   useEffect(() => {
-    if (auth_state !== AuthState.AUTHENTICATED) {
-      setAuthState(AuthState.PENDING);
-      if (document.cookie == "") {
-        setAuthState(AuthState.UNAUTHENTICATED);
-        return;
-      }
-      api
-        .get("/sentry", {
-          withCredentials: true,
-        })
-        .then((response) => {
-          setCredentials(response.data.account);
-          setAccountType(response.data.account.type);
-          setAuthState(AuthState.AUTHENTICATED);
-        })
-        .catch(() => {
-          setAuthState(AuthState.UNAUTHENTICATED);
-        });
+    if (store?.id) {
+      setAuthState(AuthState.AUTHENTICATED);
     }
-  }, []);
+    setCredentials(store ? store : null);
+    setAccountType(store ? store.type : null);
+  }, [store]);
 
   const SellerDropdown = () => {
     return (
       <DropdownMenuContent>
-        <DropdownMenuLabel>{credentials.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>{credentials?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
@@ -76,7 +61,7 @@ export const HeaderProfile = () => {
   const CustomerDropdown = () => {
     return (
       <DropdownMenuContent>
-        <DropdownMenuLabel>{credentials.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>{credentials?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
@@ -99,7 +84,10 @@ export const HeaderProfile = () => {
 
     if (!credentials) {
       return (
-        <Link href="/customer/account/login" className="text-sm font-medium">
+        <Link
+          href="/customer/account/login"
+          className="text-sm font-medium mobile:hidden"
+        >
           Увійти в аккаунт
         </Link>
       );
@@ -109,10 +97,11 @@ export const HeaderProfile = () => {
       return (
         <div>
           <DropdownMenu>
-            <DropdownMenuTrigger className=" focus-visible:outline-none">
-              <p className="text-sm font-medium">
+            <DropdownMenuTrigger className="focus-visible:outline-none">
+              <p className="text-sm font-medium mobile:hidden select-none">
                 {account_types_strings[credentials.type]}
               </p>
+              <User className="hidden mobile:flex h-5 mt-2" />
             </DropdownMenuTrigger>
             {account_type === "seller" && <SellerDropdown />}
             {account_type === "customer" && <CustomerDropdown />}
@@ -124,7 +113,7 @@ export const HeaderProfile = () => {
 
   return (
     <div className="ml-auto mr-2 text-sm font-medium">
-      <ProfileWrapper></ProfileWrapper>
+      <ProfileWrapper />
     </div>
   );
 };
