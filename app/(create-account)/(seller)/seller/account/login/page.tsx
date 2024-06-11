@@ -10,11 +10,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "@/lib/axios.config";
 import { useRouter } from "next/navigation";
 import useStore, { AuthState } from "@/context/store";
-
-type LoginFormData = {
-  email: string;
-  password: string;
-};
+import { LoginFormData } from "@/types/Customer";
+import { sellerLogin } from "./actions/account.actions";
 
 export default function Page() {
   const {
@@ -28,28 +25,20 @@ export default function Page() {
   const { setAccountType, setAuthState, setCredentials } = useStore();
 
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
-    api
-      .post(
-        "/sellers/account/login",
-        {
-          ...data,
-        },
-        { withCredentials: true },
-      )
-      .then((response) => {
-        if (response.data.token) {
-          api
-            .get("/sentry", {
-              withCredentials: true,
-            })
-            .then((credentials) => {
-              setCredentials(credentials.data.account);
-              setAuthState(AuthState.AUTHENTICATED);
-              setAccountType(credentials.data.account.type);
-            });
-          router.push("/");
-        }
-      });
+    sellerLogin(data).then((response) => {
+      if (response.data.token) {
+        api
+          .get("/sentry", {
+            withCredentials: true,
+          })
+          .then((credentials) => {
+            setCredentials(credentials.data.account);
+            setAuthState(AuthState.AUTHENTICATED);
+            setAccountType(credentials.data.account.type);
+          });
+        router.push("/");
+      }
+    });
   };
 
   return (

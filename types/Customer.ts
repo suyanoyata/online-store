@@ -5,4 +5,9 @@ interface IBaseAccount {
   name: string;
 }
 
-interface ICustomer extends IBaseAccount {}
+export interface ICustomer extends IBaseAccount {}
+
+export type LoginFormData = {
+  email: string;
+  password: string;
+};
