@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HeaderProfile } from "./header/Profile.component";
 import { headers } from "next/headers";
 import { experiments } from "@/constants/constants";
+import { ICustomer } from "@/types/Customer";
 
 export const HeaderButton = ({
   children,
