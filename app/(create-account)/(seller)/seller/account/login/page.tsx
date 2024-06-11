@@ -9,6 +9,7 @@ import { ChevronLeft, Package } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "@/lib/axios.config";
 import { useRouter } from "next/navigation";
+import useStore, { AuthState } from "@/context/store";
 
 type LoginFormData = {
   email: string;
@@ -24,6 +25,8 @@ export default function Page() {
 
   const router = useRouter();
 
+  const { setAccountType, setAuthState, setCredentials } = useStore();
+
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
     api
       .post(
@@ -35,6 +38,15 @@ export default function Page() {
       )
       .then((response) => {
         if (response.data.token) {
+          api
+            .get("/sentry", {
+              withCredentials: true,
+            })
+            .then((credentials) => {
+              setCredentials(credentials.data.account);
+              setAuthState(AuthState.AUTHENTICATED);
+              setAccountType(credentials.data.account.type);
+            });
           router.push("/");
         }
       });

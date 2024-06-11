@@ -21,7 +21,7 @@ const config = {
       lg: { min: "450px" },
       "max-sm": { max: "600px" },
       "max-xl": { max: "715px" },
-      xl: { min: "715px" },
+      xl: { min: "716px" },
       sm: "600px",
       "2xl": "1400px",
     },

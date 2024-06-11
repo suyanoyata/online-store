@@ -9,6 +9,7 @@ import { ChevronLeft } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "@/lib/axios.config";
 import { useRouter } from "next/navigation";
+import useStore, { AuthState } from "@/context/store";
 
 type LoginFormData = {
   email: string;
@@ -24,6 +25,8 @@ export default function Page() {
 
   const router = useRouter();
 
+  const { setAccountType, setAuthState, setCredentials } = useStore();
+
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
     api
       .post(
@@ -35,14 +38,23 @@ export default function Page() {
       )
       .then((response) => {
         if (response.data.token) {
+          api
+            .get("/sentry", {
+              withCredentials: true,
+            })
+            .then((credentials) => {
+              setCredentials(credentials.data.account);
+              setAuthState(AuthState.AUTHENTICATED);
+              setAccountType(credentials.data.account.type);
+            });
           router.push("/");
         }
       });
   };
 
   return (
-    <div className="w-full lg:grid lg:grid-cols-2">
-      <div className="flex items-center justify-center">
+    <div className="w-full flex lg:flex-row">
+      <div className="flex items-center justify-center flex-1 px-3">
         <div className="mx-auto grid w-[350px] gap-6">
           <header className="flex items-center gap-1">
             <ChevronLeft />
@@ -108,7 +120,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <div className="bg-muted mobile:hidden h-screen"></div>
+      <div className="bg-muted flex-1 mobile:hidden h-screen"></div>
     </div>
   );
 }

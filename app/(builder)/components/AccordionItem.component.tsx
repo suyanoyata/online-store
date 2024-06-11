@@ -2,13 +2,23 @@
 
 import useCartStore from "@/context/customer_cart.store";
 import { useCartAutoSave } from "@/hooks/useCartAutoSave.hook";
-import { IProductGPU } from "@/types/Products";
+import {
+  IBaseProduct,
+  IGraphicsProduct,
+  IMemoryProduct,
+  IMotherboardProduct,
+  IPowerProduct,
+  IProcessorProduct,
+  IStorageProduct,
+  ICaseProduct,
+} from "@/types/Products";
 import { CameraOff } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
-const AccordionImage = ({ product }: { product: IProductGPU }) => {
+const AccordionImage = ({ product }: { product: IBaseProduct }) => {
   return (
-    <div className="accordion-image">
+    <div className="accordion-image flex-none">
       {!product.product_image && <CameraOff color="gray" />}
       {product.product_image && (
         <Image
@@ -24,10 +34,19 @@ const AccordionImage = ({ product }: { product: IProductGPU }) => {
 };
 
 export const AccordionProduct = ({
+  target,
   product,
   setOpen,
 }: {
-  product: IProductGPU;
+  target: "gpu" | "cpu" | "motherboard" | "ram" | "storage" | "psu" | "case";
+  product:
+    | IGraphicsProduct
+    | IProcessorProduct
+    | IStorageProduct
+    | IMemoryProduct
+    | IMotherboardProduct
+    | IPowerProduct
+    | ICaseProduct;
   setOpen: (s: string) => void;
 }) => {
   const { cartData, setCartData } = useCartStore();
@@ -38,16 +57,20 @@ export const AccordionProduct = ({
     <div className="flex items-center">
       <AccordionImage product={product} />
       <div>
-        <p className="font-semibold text-md hover:underline cursor-pointer">
+        <Link
+          href={`/products/view/${product.id}`}
+          target="_blank"
+          className="font-semibold text-md hover:underline cursor-pointer text-ellipsis text-nowrap overflow-hidden"
+        >
           {product.product_title}
-        </p>
+        </Link>
       </div>
-      <p className="ml-auto">{product.product_price} UAH</p>
+      <p className="ml-auto text-nowrap">{product.product_price} UAH</p>
       <p
         onClick={() => {
           setCartData({
             ...cartData,
-            gpu: product,
+            [target]: product,
           });
           setOpen("");
         }}

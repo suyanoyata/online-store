@@ -5,6 +5,8 @@ export const useCartAutoSave = () => {
   const { cartData } = useCartStore();
 
   useEffect(() => {
+    if (JSON.stringify(cartData) === "{}") return;
+
     localStorage.setItem("cart", JSON.stringify(cartData));
   }, [cartData]);
 

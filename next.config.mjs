@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "content.rozetka.com.ua",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "content1.rozetka.com.ua",
+        port: "",
+      },
     ],
   },
 };

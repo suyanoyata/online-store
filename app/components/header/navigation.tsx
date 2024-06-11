@@ -40,7 +40,7 @@ export default function HeaderNavigation() {
           >
             Комплектуючі
           </HoverCardTrigger>
-          <HoverCardContent className="p-2 flex flex-wrap justify-evenly">
+          <HoverCardContent className="p-2 h-[160px] w-[320px] grid grid-cols-2 z-10 bg-white">
             {header_routes.map((route) => (
               <Link
                 key={route.url}
@@ -57,10 +57,15 @@ export default function HeaderNavigation() {
   };
 
   const SmallScreenContent = () => {
+    const [open, setOpen] = useState<boolean>(false);
     return (
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
         <div className="sm:hidden ml-2 h-6">
-          <SheetTrigger>
+          <SheetTrigger
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
             <MenuIcon />
           </SheetTrigger>
         </div>
@@ -72,6 +77,9 @@ export default function HeaderNavigation() {
             <SheetDescription className="flex flex-col text-left gap-1">
               <span className="text-lg font-bold text-black">Основне</span>
               <Link
+                onClick={() => {
+                  setOpen(false);
+                }}
                 className="text-md font-medium hover:underline cursor-pointer h-5 antialiased hover:text-black"
                 href="/build"
               >
@@ -80,6 +88,9 @@ export default function HeaderNavigation() {
               <span className="text-lg font-bold text-black">Комплектуючі</span>
               {header_routes.map((route) => (
                 <Link
+                  onClick={() => {
+                    setOpen(false);
+                  }}
                   key={route.url}
                   href={route.url}
                   className="text-md font-medium hover:underline cursor-pointer h-5 antialiased hover:text-black"
@@ -87,8 +98,11 @@ export default function HeaderNavigation() {
                   {route.title}
                 </Link>
               ))}
-              <h2 className="text-lg font-bold text-black">Інше</h2>
+              <span className="text-lg font-bold text-black">Інше</span>
               <Link
+                onClick={() => {
+                  setOpen(false);
+                }}
                 className="text-md font-medium hover:underline cursor-pointer h-5 antialiased hover:text-black"
                 href="/faq/sellers"
               >

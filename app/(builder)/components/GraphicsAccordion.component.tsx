@@ -9,14 +9,14 @@ import {
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useCartStore from "@/context/customer_cart.store";
-import { IProductGPU } from "@/types/Products";
+import { IGraphicsProduct } from "@/types/Products";
 import { useEffect, useState } from "react";
 import { AccordionProduct } from "./AccordionItem.component";
 
 export const GraphicsAccordion = ({
   products,
 }: {
-  products: IProductGPU[];
+  products: IGraphicsProduct[];
 }) => {
   const [open, setOpen] = useState<string>("0");
 
@@ -39,7 +39,12 @@ export const GraphicsAccordion = ({
           <ScrollArea className="max-h-[500px]">
             <div className="flex flex-col gap-5">
               {products.map((product, i) => (
-                <AccordionProduct key={i} product={product} setOpen={setOpen} />
+                <AccordionProduct
+                  target="gpu"
+                  key={i}
+                  product={product}
+                  setOpen={setOpen}
+                />
               ))}
             </div>
           </ScrollArea>

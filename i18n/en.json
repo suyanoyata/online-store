@@ -1,0 +1,14 @@
+{
+  "cart": {
+    "title": "Cart"
+  },
+  "product_property": {
+    "cpu": {
+      "socket": "Socket",
+      "core_count": "Number of cores",
+      "core_clock": "Core clock",
+      "thread_count": "Number of threads",
+      "integrated_graphics": "Integrated graphics"
+    }
+  }
+}

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import NotFoundImage from "@/public/not_found.png";
+import AlternativeNotFound from "@/public/alternative_not_found.gif";
 import Link from "next/link";
+import { experiments } from "@/constants/constants";
 
 export default function NotFound() {
   return (
@@ -25,13 +27,24 @@ export default function NotFound() {
             • Перевірити правильність введеної URL-адреси.
           </p>
         </div>
-        <Image
-          src={NotFoundImage}
-          alt=""
-          width={400}
-          height={0}
-          className="h-auto"
-        />
+        {experiments.USE_FUNNY_NOT_FOUND_IMAGE.CONTROL_VALUE === 0 ? (
+          <Image
+            src={NotFoundImage}
+            alt=""
+            width={400}
+            height={0}
+            className="h-auto"
+          />
+        ) : (
+          <Image
+            alt=""
+            height={150}
+            width={150}
+            src={AlternativeNotFound}
+            unoptimized
+            className="w-auto h-[150px] object-contain self-start max-sm:self-center max-sm:w-full max-sm:h-auto"
+          />
+        )}
       </main>
     </>
   );

@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import Link from "next/link";
 import { CartList } from "./components/CartList.component";
 import {
   CheckoutDesktop,
@@ -10,14 +10,20 @@ export default async function Page() {
   return (
     <>
       <main className="max-w-[1000px] mx-auto px-3">
-        <h1 className="text-2xl font-bold">Корзина</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Кошик</h1>
+          <Link
+            href="/customer/orders"
+            className="text-sm text-blue-500 hover:underline"
+          >
+            Мої замовлення
+          </Link>
+        </div>
         <div className="flex mt-3 gap-10">
-          <Suspense fallback={<div>Loading</div>}>
-            <ScrollArea className="flex-1 overflow-auto break-words flex flex-col gap-4 max-xl:h-[calc(100vh-275px)]">
-              <CartList />
-            </ScrollArea>
-            <CheckoutDesktop />
-          </Suspense>
+          <ScrollArea className="flex-1 break-words flex flex-col gap-4 max-xl:h-[calc(100vh-275px)] h-[800px]">
+            <CartList />
+          </ScrollArea>
+          <CheckoutDesktop />
         </div>
       </main>
       <CheckoutMobile />

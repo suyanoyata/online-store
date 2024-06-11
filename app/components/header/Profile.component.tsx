@@ -101,7 +101,7 @@ export const HeaderProfile = ({ store }: { store: ICustomer | null }) => {
               <p className="text-sm font-medium mobile:hidden select-none">
                 {account_types_strings[credentials.type]}
               </p>
-              <User className="hidden mobile:flex h-5 mt-2" />
+              <User className="hidden mobile:flex h-5 mt-1" />
             </DropdownMenuTrigger>
             {account_type === "seller" && <SellerDropdown />}
             {account_type === "customer" && <CustomerDropdown />}

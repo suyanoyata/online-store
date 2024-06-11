@@ -1,8 +1,9 @@
 "use client";
 
 import useCartStore from "@/context/customer_cart.store";
-import { Loader2 } from "lucide-react";
+import { CameraOff, Loader2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect } from "react";
 
 const Product = ({ product, title }: { product: any; title: string }) => {
@@ -18,12 +19,16 @@ const Product = ({ product, title }: { product: any; title: string }) => {
             className="mix-blend-multiply w-auto h-auto"
           />
         )}
+        {!product.product_image && <CameraOff color="gray" />}
       </div>
       <div className="ml-2">
         <p className="text-zinc-400 text-xs font-semibold">{title}</p>
-        <h2 className="text-sm font-medium cursor-pointer hover:underline">
+        <Link
+          href={`/products/view/${product.id}`}
+          className="select-none text-sm font-medium cursor-pointer hover:underline text-ellipsis overflow-hidden"
+        >
           {product.product_title}
-        </h2>
+        </Link>
       </div>
       <p className="ml-auto text-black font-medium text-nowrap text-sm">
         {product.product_price} UAH
@@ -32,9 +37,27 @@ const Product = ({ product, title }: { product: any; title: string }) => {
   );
 };
 
-const localizedTitle = {
+export const localizedTitle = {
   gpu: {
     title: "Відеокарта",
+  },
+  cpu: {
+    title: "Процесор",
+  },
+  motherboard: {
+    title: "Материнська плата",
+  },
+  storage: {
+    title: "Накопичувач",
+  },
+  ram: {
+    title: "Оперативна пам'ять",
+  },
+  psu: {
+    title: "Блок живлення",
+  },
+  case: {
+    title: "Корпус",
   },
 };
 
@@ -58,10 +81,11 @@ export const CartList = () => {
     );
   }
 
-  if (!cartData?.gpu) return;
+  if (!cartData) return;
 
   return Object.keys(cartData).map((key: string) => (
     <div key={key} className="my-2">
+      {/* @ts-ignore */}
       <Product title={localizedTitle[key].title} product={cartData[key]} />
     </div>
   ));
