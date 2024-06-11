@@ -4,7 +4,7 @@ import { api } from "@/lib/axios.config";
 import { IBaseProduct } from "@/types/Products";
 import Image from "next/image";
 
-import { schemas } from "../../../../../../backend/src/types/zod/product.schema";
+import { schemas } from "@/types/Products";
 import { CameraOff } from "lucide-react";
 import { AddToCartButton } from "./components/AddToCart.button";
 import { notFound } from "next/navigation";
