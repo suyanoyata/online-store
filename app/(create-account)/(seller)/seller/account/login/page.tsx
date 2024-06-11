@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ChevronLeft, Package } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "@/lib/axios.config";
 import { useRouter } from "next/navigation";
@@ -26,7 +26,8 @@ export default function Page() {
 
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
     sellerLogin(data).then((response) => {
-      if (response.data.token) {
+      if (response.data.token && response.cookies) {
+        document.cookie = `${response.cookies[0]}`;
         api
           .get("/sentry", {
             withCredentials: true,
