@@ -46,7 +46,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (
-    request.nextUrl.pathname.startsWith("/customer/") ||
+    request.nextUrl.pathname.startsWith("/customer/cart") ||
     request.nextUrl.pathname.startsWith("/build")
   ) {
     if (account?.type !== "customer" || account.type == null) {
