@@ -32,10 +32,11 @@ export const validateAuthToken = (): {
 export const isSeller = async () => {
   try {
     const user = validateAuthToken();
-    if (!user.data?.id) {
+    if (!user.data) {
       throw Error();
     }
 
+    // @ts-ignore
     const { id } = user.data;
 
     const type = await user_service.api.get_user_type(id);
@@ -54,10 +55,11 @@ export const isCustomer = async () => {
   try {
     const user = validateAuthToken();
 
-    if (!user.data?.id) {
+    if (!user.data) {
       throw Error();
     }
 
+    // @ts-ignore
     const { id } = user.data;
 
     const type = await user_service.api.get_user_type(id);

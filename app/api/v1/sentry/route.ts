@@ -8,6 +8,7 @@ export async function GET() {
     return Response.json({ error: userId.error }, { status: 401 });
   }
 
+  // @ts-ignore
   const customer = await customer_service.api.get_user(userId.data?.id);
 
   return Response.json(customer);
