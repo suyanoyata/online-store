@@ -15,6 +15,7 @@ import useStore, { AuthState } from "@/context/store";
 import { Loader2Icon, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { account_types_strings } from "@/constants/constants";
+import { ICustomer } from "@/types/Customer";
 
 export const HeaderProfile = ({ store }: { store: ICustomer | null }) => {
   const {
