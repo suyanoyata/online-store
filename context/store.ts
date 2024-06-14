@@ -1,3 +1,4 @@
+import { ICustomer } from "@/types/Customer";
 import { create } from "zustand";
 
 export enum AuthState {

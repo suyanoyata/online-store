@@ -6,6 +6,7 @@ import { experiments } from "./constants/constants";
 
 async function account_sentry(request: NextRequest) {
   const currentUser = request.cookies.get("access-token")?.value;
+  LOG(LOG_LEVEL.INFO, "[sentry] Getting cookies");
 
   if (experiments.DISABLE_SENTRY.CONTROL_VALUE == 1) {
     LOG(LOG_LEVEL.ERROR, experiments.DISABLE_SENTRY.REASON);
@@ -13,6 +14,8 @@ async function account_sentry(request: NextRequest) {
   }
 
   if (!currentUser) return null;
+
+  LOG(LOG_LEVEL.INFO, "[sentry] Cookies not empty, doing request");
 
   return await api
     .get("/sentry", {
@@ -22,9 +25,14 @@ async function account_sentry(request: NextRequest) {
       withCredentials: true,
     })
     .then((response) => {
+      LOG(
+        LOG_LEVEL.INFO,
+        `[sentry] Sentry response: ${JSON.stringify(response)}`,
+      );
       return response.data.account;
     })
-    .catch(() => {
+    .catch((error) => {
+      LOG(LOG_LEVEL.ERROR, "[sentry] Sentry error", error);
       return null;
     });
 }
