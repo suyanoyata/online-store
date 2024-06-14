@@ -30,15 +30,13 @@ async function account_sentry(request: NextRequest) {
 }
 
 export async function middleware(request: NextRequest) {
-  if (
-    request.nextUrl.pathname.startsWith(
-      "/_next/static" || request.nextUrl.pathname.startsWith("/favicon"),
-    )
-  ) {
-    return NextResponse.next();
-  }
-
+  const start = performance.now();
+  LOG(LOG_LEVEL.VERBOSE, "Start of account sentry");
   const account = await account_sentry(request);
+  LOG(
+    LOG_LEVEL.VERBOSE,
+    `Sentry finished in ${(performance.now() - start).toFixed()}ms`,
+  );
   if (request.nextUrl.pathname.startsWith("/dashboard/products/create")) {
     if (account.type == "customer" || account.type == null) {
       return Response.redirect(new URL("/", request.url));
@@ -56,16 +54,30 @@ export async function middleware(request: NextRequest) {
 
   const requestHeaders = new Headers(request.headers);
 
+  LOG(LOG_LEVEL.VERBOSE, "Got request headers");
+
   if (account != null) {
+    LOG(LOG_LEVEL.VERBOSE, "Sentry is not null, getting request cookies");
     if (request?.cookies?.get("access-token")?.value != undefined) {
+      LOG(
+        LOG_LEVEL.VERBOSE,
+        "Request cookies has a value, moving it to headers",
+      );
+
       requestHeaders.set(
         "access-token",
         // @ts-ignore
         request.cookies.get("access-token")?.value,
       );
     }
+    LOG(LOG_LEVEL.VERBOSE, "Setting account credentials into headers");
     requestHeaders.set("x-account", JSON.stringify(account));
   }
+
+  LOG(
+    LOG_LEVEL.VERBOSE,
+    `Redirecting, took ${(performance.now() - start).toFixed()}ms`,
+  );
 
   return NextResponse.next({
     request: {
