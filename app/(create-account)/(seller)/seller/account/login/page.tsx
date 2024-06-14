@@ -21,12 +21,16 @@ export default function Page() {
   const router = useRouter();
 
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
-    sellerLogin(data).then((response) => {
-      if (response.data.token && response.cookies) {
-        document.cookie = `${response.cookies[0]}`;
-        router.push("/");
-      }
-    });
+    sellerLogin(data)
+      .then((response) => {
+        if (response.data.token && response.cookies) {
+          document.cookie = `${response.cookies[0]}`;
+          router.push("/");
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (

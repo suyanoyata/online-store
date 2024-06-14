@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Customers {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
+  name     String
+  password String
+}
+
+model Product {
+  id                   String      @id @default(auto()) @map("_id") @db.ObjectId
+  product_title        String
+  vendor               String
+  product_original_url String?
+  product_image        String?
+  product_price        Int
+  type                 ProductType
+
+  // - essential relations
+  sellerModel      Sellers        @relation(fields: [sellerId], references: [id])
+  sellerId         String         @db.ObjectId
+  ProductDetails   ProductDetails @relation(fields: [productDetailsId], references: [id])
+  productDetailsId String         @db.ObjectId
+}
+
+model ProductDetails {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  Product      Product[]
+  series       String?
+  
+  // -- gpu
+  core_clock     Float?
+  memory_clock   Int?
+  memory_size    Int?
+  power_pins     String?
+  interface      String?
+  required_power Int?
+
+  // -- cpu
+  socket              String?
+  core_count          Int?
+  thread_count        Int?
+  integrated_graphics String?
+
+  // -- ram
+  ram_speed Int?
+  ram_type String?
+  ram_count Int?
+  ram_size Int?
+
+  // -- motherboard
+  motherboard_socket String?
+  motherboard_chipset String?
+  motherboard_ram_type String?
+  motherboard_form_factor String?
+
+  // -- storage
+  drive_type DriveType?
+  drive_form_factor String?
+  drive_capacity Int?
+  drive_read_speed Int?
+  drive_write_speed Int?
+  drive_interface String?
+
+  // -- case
+
+  case_type CaseType?
+  case_form_factor CaseFormFactor?
+  case_color String?
+
+  // psu
+
+  psu_capacity Int?
+  psu_gpu_slot String?
+}
+
+model OrderModel {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  orderDate     DateTime  @default(now())
+  orderStatus   String
+  orderTotal    Int
+  orderUserId   String    @db.ObjectId
+  orderItems    String[]
+  prettyOrderId String
+}
+
+model Sellers {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  email    String    @unique
+  name     String
+  password String
+  Product  Product[]
+}
+
+enum ProductType {
+  gpu
+  cpu
+  motherboard
+  ram
+  storage
+  case
+  psu
+}
+
+enum DriveType {
+  hdd
+  ssd
+}
+
+enum CaseType {
+  ATX
+  MicroATX
+  MiniITX
+}
+
+enum CaseFormFactor {
+  MidTower
+  FullTower
+}
+
+enum GPUPowerPins {
+  e_6pin
+  e_6p2pin
+  e_8pin
+  e_16pin
+}

@@ -9,9 +9,14 @@ export const sellerLogin = async (data: LoginFormData) => {
       ...data,
     })
     .then((response) => {
+      console.log(response.headers);
       return {
         data: response.data,
         cookies: response.headers["set-cookie"],
       };
+    })
+    .catch((error) => {
+      // console.log(error.response);
+      return error;
     });
 };
