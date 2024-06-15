@@ -27,6 +27,7 @@ export default async function Page() {
         <ComponentAccordion products={products} target="cpu" />
         <ComponentAccordion products={products} target="gpu" />
         <ComponentAccordion products={products} target="motherboard" />
+        <ComponentAccordion products={products} target="ram" />
         <ComponentAccordion products={products} target="storage" />
         <ComponentAccordion products={products} target="psu" />
         <ComponentAccordion products={products} target="case" />

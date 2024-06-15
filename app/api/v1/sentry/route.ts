@@ -4,12 +4,11 @@ import { customer_service } from "../../(services)/user.service";
 export async function GET() {
   const userId = validateAuthToken();
 
-  if (userId?.error) {
+  if (userId?.error || !userId.data?.id) {
     return Response.json({ error: userId.error }, { status: 401 });
   }
 
-  // @ts-ignore
-  const customer = await customer_service.api.get_user(userId.data?.id);
+  const customer = await customer_service.api.get_user(userId.data.id);
 
   return Response.json(customer);
 }

@@ -73,8 +73,8 @@ export const ComponentAccordion = ({
   const AccordionCheckGpuPower = () => {
     if (
       target == "psu" &&
-      cartData.gpu != undefined &&
-      cartData.psu != undefined
+      cartData?.gpu != undefined &&
+      cartData?.psu != undefined
     ) {
       if (cartData.psu.psu_capacity < cartData.gpu.required_power) {
         return (

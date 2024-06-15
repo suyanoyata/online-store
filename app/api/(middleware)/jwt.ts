@@ -1,6 +1,6 @@
 import { JwtPayload, sign, verify } from "jsonwebtoken";
 import { user_service } from "@/app/api/(services)/user.service";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 const secret: string = process.env.JWT_SECRET as string;
 
@@ -11,10 +11,15 @@ export const generateToken = (id: string, type: string) => {
 };
 
 export const validateAuthToken = (): {
-  data?: JwtPayload | string;
+  data?: {
+    id: string;
+    type: string;
+  };
   error?: string;
 } => {
-  const token = cookies().get("access-token")?.value;
+  const headerList = headers();
+  const token =
+    cookies().get("access-token")?.value || headerList.get("access-token");
   try {
     if (!token) {
       throw Error();
@@ -22,6 +27,7 @@ export const validateAuthToken = (): {
     const decodedData = verify(token, secret);
 
     return {
+      // @ts-ignore
       data: decodedData,
     };
   } catch (e) {
@@ -36,7 +42,6 @@ export const isSeller = async () => {
       throw Error();
     }
 
-    // @ts-ignore
     const { id } = user.data;
 
     const type = await user_service.api.get_user_type(id);
@@ -59,7 +64,6 @@ export const isCustomer = async () => {
       throw Error();
     }
 
-    // @ts-ignore
     const { id } = user.data;
 
     const type = await user_service.api.get_user_type(id);

@@ -6,6 +6,7 @@ import {
   ProductSchema,
   schemas,
 } from "../(types)/zod/product.schema";
+import { ProductTypes } from "@/app/(create-product)/dashboard/products/create/components/CreateForm.form";
 
 const prisma = new PrismaClient();
 
@@ -96,14 +97,7 @@ const get_all_products = async () => {
 
 const add_product = async (
   sellerId: string,
-  product_type:
-    | "gpu"
-    | "cpu"
-    | "motherboard"
-    | "storage"
-    | "ram"
-    | "case"
-    | "psu",
+  product_type: ProductTypes,
   product: Product,
 ) => {
   const parsedProduct = ProductSchema.parse(product);

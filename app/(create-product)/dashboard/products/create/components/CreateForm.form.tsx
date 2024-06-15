@@ -9,7 +9,7 @@ import { api } from "@/lib/axios.config";
 import { CameraOff } from "lucide-react";
 import { useState } from "react";
 
-type ProductTypes =
+export type ProductTypes =
   | "gpu"
   | "cpu"
   | "motherboard"
@@ -38,7 +38,8 @@ type ProductGPU = {
   memory_clock: number;
   memory_size: number;
   interface: string;
-  minimal_power: number;
+  required_power: number;
+  power_pins: string;
 };
 
 type ProductCPU = {
@@ -113,9 +114,32 @@ export const additional_text_sources: {
       type: "input",
     },
     {
-      id: "minimal_power",
-      placeholder: "Мінімальна потужність",
+      id: "required_power",
+      placeholder: "Потрібна потужність",
       type: "input",
+    },
+    {
+      id: "power_pins",
+      placeholder: "Піни відеокарти",
+      type: "select",
+      select: [
+        {
+          id: "e_6pin",
+          title: "6 pin",
+        },
+        {
+          id: "e_6p2pin",
+          title: "6+2 pin",
+        },
+        {
+          id: "e_8pin",
+          title: "8 pin",
+        },
+        {
+          id: "e_16pin",
+          title: "16 pin",
+        },
+      ],
     },
   ],
   cpu: [
@@ -300,6 +324,7 @@ export const CreateForm = () => {
     psu_gpu_slot: "e_6pin",
     case_type: "ATX",
     case_form_factor: "MidTower",
+    power_pins: "e_6pin",
   } as ProductCreate);
 
   const general_text_sources = [
@@ -327,7 +352,7 @@ export const CreateForm = () => {
 
   function create_product() {
     api.post(
-      `/products/add/${products.type}`,
+      `/api/v1/products/add/${products.type}`,
       {
         ...products,
         product_price: parseInt(products.product_price?.toString()),
@@ -335,6 +360,9 @@ export const CreateForm = () => {
         thread_count: parseInt(products.thread_count?.toString()),
         psu_capacity: parseInt(products.psu_capacity?.toString()),
         core_clock: parseFloat(products.core_clock?.toString()),
+        memory_clock: parseInt(products.memory_clock?.toString()),
+        memory_size: parseInt(products.memory_size?.toString()),
+        required_power: parseInt(products.required_power?.toString()),
       },
       {
         withCredentials: true,
@@ -354,6 +382,39 @@ export const CreateForm = () => {
             <RadioGroup
               key={source.id}
               value={products.psu_gpu_slot}
+              defaultValue={source.select && source.select[0].id}
+              onValueChange={(value: ProductTypes) => {
+                setProducts({
+                  ...products,
+                  [source.id]: value,
+                });
+              }}
+              className="flex mt-3 flex-wrap"
+            >
+              {source.select?.map((product) => (
+                <div key={product.id} className="flex items-center space-x-2">
+                  <RadioGroupItem value={product.id} id={product.id} />
+                  <Label htmlFor={product.id}>{product.title}</Label>
+                </div>
+              ))}
+            </RadioGroup>
+          </>
+        ),
+    );
+  };
+
+  const GPUPinsRadioGroup = () => {
+    if (products.type !== "gpu") return null;
+    return additional_text_sources[products.type]?.map(
+      (source) =>
+        source.type === "select" && (
+          <>
+            <p className="my-0 mt-2 text-sm font-medium">
+              {source.placeholder}
+            </p>
+            <RadioGroup
+              key={source.id}
+              value={products.power_pins}
               defaultValue={source.select && source.select[0].id}
               onValueChange={(value: ProductTypes) => {
                 setProducts({
@@ -527,6 +588,7 @@ export const CreateForm = () => {
             <PowerRadioGroup />
             <CaseFormFactorRadioGroup />
             <CaseTypeRadioGroup />
+            <GPUPinsRadioGroup />
           </>
         </div>
         <ProductPreviewImage />

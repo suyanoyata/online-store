@@ -1,3 +1,4 @@
+import { constants } from "@/app/api/(configs)/constants";
 import {
   Descriptions,
   app_title,
@@ -12,22 +13,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-const allowed_products = [
-  "gpu",
-  "cpu",
-  "motherboard",
-  "storage",
-  "ram",
-  "psu",
-  "case",
-];
-
 export default async function Page({
   params,
 }: {
   params: { product_type: AvailableProducts };
 }) {
-  if (!allowed_products.includes(params.product_type)) {
+  if (!constants.allowed_product_fields.includes(params.product_type)) {
     notFound();
   }
   const products: IBaseProduct[] = await api

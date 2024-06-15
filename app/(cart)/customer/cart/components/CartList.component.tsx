@@ -1,7 +1,7 @@
 "use client";
 
 import useCartStore from "@/context/customer_cart.store";
-import { CameraOff, Loader2 } from "lucide-react";
+import { CameraOff, Loader2, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -81,7 +81,24 @@ export const CartList = () => {
     );
   }
 
-  if (!cartData) return;
+  if (!cartData) {
+    return (
+      <div className="flex-1 h-60 items-center justify-center flex flex-col">
+        <div className="bg-zinc-100 rounded-full p-4">
+          <ShoppingCart />
+        </div>
+        <p className="text-sm text-zinc-400 font-medium mt-3 mx-4 text-center">
+          Ваша корзина порожня. Сюди додається товар коли ви натискаєте на
+          кнопку <span className="text-blue-500">Додати в корзину</span> або
+          обираєте товар в{" "}
+          <Link href="/build" className="text-blue-500 hover:underline">
+            конфігураторі
+          </Link>
+          .
+        </p>
+      </div>
+    );
+  }
 
   return Object.keys(cartData).map((key: string) => (
     <div key={key} className="my-2">

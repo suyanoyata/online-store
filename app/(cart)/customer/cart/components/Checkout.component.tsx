@@ -48,7 +48,7 @@ function orderItems(
 
   api
     .post(
-      "/order",
+      "/api/v1/order",
       {
         items,
       },

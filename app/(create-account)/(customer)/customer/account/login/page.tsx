@@ -30,7 +30,7 @@ export default function Page() {
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
     api
       .post(
-        "/customers/account/login",
+        "/api/v1/customers/account/login",
         {
           ...data,
         },
@@ -39,7 +39,7 @@ export default function Page() {
       .then((response) => {
         if (response.data.token) {
           api
-            .get("/sentry", {
+            .get("/api/v1/sentry", {
               withCredentials: true,
             })
             .then((credentials) => {
