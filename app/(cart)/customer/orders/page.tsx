@@ -47,28 +47,43 @@ export default async function Page() {
               }).format(new Date(order.orderDate))}
             </p>
           </div>
-          {order.orderItems.map((product) => (
-            <Link
-              href={`/products/view/${product.id}`}
-              key={product.id}
-              className="py-2 flex gap-2 items-center"
-            >
-              {product.product_image && (
-                <Image
-                  src={product.product_image}
-                  width={60}
-                  height={60}
-                  alt=""
-                />
-              )}
-              {!product.product_image && (
-                <div className="w-[60px] h-[60px] bg-zinc-100 rounded-sm flex items-center justify-center flex-shrink-0">
-                  <CameraOff className="text-zinc-400" size={20} />
+          {order.orderItems.map((product, index) => {
+            if (product?.id) {
+              return (
+                <Link
+                  href={`/products/view/${product.id}`}
+                  key={product.id}
+                  className="py-2 flex gap-2 items-center"
+                >
+                  {product.product_image && (
+                    <Image
+                      src={product.product_image}
+                      width={60}
+                      height={60}
+                      alt=""
+                    />
+                  )}
+                  {!product.product_image && (
+                    <div className="w-[60px] h-[60px] bg-zinc-100 rounded-sm flex items-center justify-center flex-shrink-0">
+                      <CameraOff className="text-zinc-400" size={20} />
+                    </div>
+                  )}
+                  <p className="font-medium">{product.product_title}</p>
+                </Link>
+              );
+            } else {
+              return (
+                <div key={index} className="flex items-center">
+                  <div className="w-[60px] h-[60px] bg-zinc-100 rounded-sm flex items-center justify-center flex-shrink-0">
+                    <CameraOff className="text-zinc-400" size={20} />
+                  </div>
+                  <p className="font-medium text-zinc-600 ml-2">
+                    Цього товару більше не існує
+                  </p>
                 </div>
-              )}
-              <p className="font-medium">{product.product_title}</p>
-            </Link>
-          ))}
+              );
+            }
+          })}
           <p className="font-medium text-zinc-500 mb-12">
             Вартість замовлення:{" "}
             <span className="text-black">{order.orderTotal} UAH</span>
