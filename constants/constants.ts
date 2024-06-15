@@ -1,6 +1,6 @@
 export const experiments = {
   ACCEPT_SELLERS_ACCOUNT_EXPERIMENT_BUCKET: {
-    CONTROL_VALUE: 0,
+    CONTROL_VALUE: 1,
     REASON: "Наразі створення аккаунтів для продавців призупинено.",
   },
   DISABLE_SENTRY: {
@@ -17,7 +17,8 @@ export const experiments = {
     REASON: "",
   },
 };
-export const app_title = "online-store";
+export const expirationDays = 2;
+export const app_title = "Online Store";
 
 export const account_types_strings = {
   customer: "Профіль клієнта",

@@ -1,5 +1,7 @@
 import { user_service } from "@/app/api/(services)/user.service";
 import { RegisterSchema } from "@/app/api/(types)/zod/user.schema";
+import { expirationDays } from "@/constants/constants";
+import { cookies } from "next/headers";
 
 export async function POST(
   request: Request,
@@ -18,6 +20,10 @@ export async function POST(
       },
       params.account_type,
     );
+
+    cookies().set("access-token", registerResponse.token, {
+      maxAge: 86400 + expirationDays,
+    });
 
     return Response.json(registerResponse);
   } catch (e) {

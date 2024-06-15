@@ -53,8 +53,6 @@ export default function Page() {
       )
       .then((response) => {
         if (response.data.token) {
-          document.cookie = `access-token=${response.data.token}`;
-
           api
             .get("/api/v1/sentry", {
               withCredentials: true,

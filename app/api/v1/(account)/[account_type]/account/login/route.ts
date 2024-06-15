@@ -1,5 +1,6 @@
 import { user_service } from "@/app/api/(services)/user.service";
 import { UserLoginSchema } from "@/app/api/(types)/zod/user.schema";
+import { expirationDays } from "@/constants/constants";
 import { cookies } from "next/headers";
 
 export async function POST(
@@ -17,7 +18,9 @@ export async function POST(
       type: params.account_type,
     });
 
-    cookies().set("access-token", loginResponse.token);
+    cookies().set("access-token", loginResponse.token, {
+      maxAge: 86400 * expirationDays,
+    });
 
     return Response.json(loginResponse);
   } catch (error) {
