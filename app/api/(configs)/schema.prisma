@@ -110,8 +110,8 @@ enum ProductType {
 }
 
 enum DriveType {
-  hdd
-  ssd
+  HDD
+  SSD
 }
 
 enum CaseType {

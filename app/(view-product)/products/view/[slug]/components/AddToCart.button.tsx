@@ -16,7 +16,7 @@ export const AddToCartButton = ({ product }: { product: IBaseProduct }) => {
     const storage = localStorage.getItem("cart");
     setThrottle(false);
     setCartData(storage ? JSON.parse(storage) : ({} as ICartData));
-  }, []);
+  }, [setThrottle, setCartData]);
 
   useCartAutoSave();
 

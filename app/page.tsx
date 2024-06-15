@@ -93,6 +93,10 @@ export default async function Home() {
     );
   };
 
+  if (!products) {
+    return;
+  }
+
   return (
     <main className="max-w-[900px] mx-auto">
       <UniversalProductCard product_type="cpu" />

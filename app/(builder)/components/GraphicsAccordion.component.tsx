@@ -27,7 +27,7 @@ export const GraphicsAccordion = ({
   useEffect(() => {
     setThrottle(false);
     setCartData(storage ? JSON.parse(storage) : null);
-  }, [storage]);
+  }, [storage, setCartData, setThrottle]);
 
   return (
     <Accordion value={open} onValueChange={setOpen} type="single" collapsible>

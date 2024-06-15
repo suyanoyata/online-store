@@ -69,7 +69,7 @@ export const HeaderProfile = ({ store }: { store: ICustomer | null }) => {
     }
     setCredentials(store ? store : null);
     setAccountType(store ? store.type : null);
-  }, [store]);
+  }, [store, setAccountType, setCredentials, setAuthState]);
 
   const SellerDropdown = () => {
     return (

@@ -30,7 +30,7 @@ export const ComponentAccordion = ({
     const storage = localStorage.getItem("cart");
     setThrottle(false);
     setCartData(storage ? JSON.parse(storage) : ({} as ICartData));
-  }, []);
+  }, [setThrottle, setCartData]);
 
   if (!products[target]) return null;
 

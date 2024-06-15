@@ -5,4 +5,4 @@ export async function GET(request: Request) {
   return Response.json(products);
 }
 
-export const runtime = "edge";
+export const runtime = "nodejs";

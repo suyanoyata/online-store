@@ -4,11 +4,11 @@ import { api } from "@/lib/axios.config";
 import { IBaseProduct } from "@/types/Products";
 import Image from "next/image";
 
-import { schemas } from "@/types/Products";
 import { CameraOff } from "lucide-react";
 import { AddToCartButton } from "./components/AddToCart.button";
 import { notFound } from "next/navigation";
 import { localizedPsu, product_properties } from "@/constants/constants";
+import { schemas } from "@/app/api/(types)/zod/product.schema";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const product: IBaseProduct = await api

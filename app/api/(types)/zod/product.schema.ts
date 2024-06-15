@@ -58,7 +58,7 @@ export const schemas = {
     motherboard_form_factor: z.enum(["ATX", "Micro ATX", "Mini ITX"]),
   }),
   storage: z.object({
-    drive_type: z.enum(["hdd", "ssd"]),
+    drive_type: z.enum(["HDD", "SSD"]),
     drive_form_factor: z.enum(["2.5", "3.5"]),
     drive_capacity: z.number(),
     drive_read_speed: z.number(),

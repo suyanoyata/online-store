@@ -71,7 +71,7 @@ export const CartList = () => {
     setTimeout(() => {
       setThrottle(false);
     }, 500);
-  }, []);
+  }, [setCartData, setThrottle]);
 
   if (throttle) {
     return (
