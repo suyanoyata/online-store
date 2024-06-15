@@ -5,11 +5,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "@/lib/axios.config";
 import { useRouter } from "next/navigation";
 import useStore, { AuthState } from "@/context/store";
+import { useState } from "react";
 
 type LoginFormData = {
   email: string;
@@ -26,9 +27,12 @@ export default function Page() {
 
   const router = useRouter();
 
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+
   const { setAccountType, setAuthState, setCredentials } = useStore();
 
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
+    setSubmitting(true);
     api
       .post(
         "/api/v1/customers/account/login",
@@ -55,6 +59,7 @@ export default function Page() {
         setError(error.response.data.field, {
           message: error.response.data.message,
         });
+        setSubmitting(false);
       });
   };
 
@@ -105,11 +110,13 @@ export default function Page() {
               )}
             </div>
             <Button
+              disabled={isSubmitting}
               onClick={handleSubmit(onSubmit)}
               type="submit"
               className="w-full"
             >
-              Увійти
+              {!isSubmitting && "Увійти"}
+              {isSubmitting && <Loader2 className="animate-spin" />}
             </Button>
           </div>
           <div className="text-center text-sm">

@@ -5,11 +5,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ChevronLeft } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { LoginFormData } from "@/types/Customer";
 import { sellerLogin } from "./actions/account.actions";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
 export default function Page() {
   const {
@@ -21,30 +22,26 @@ export default function Page() {
 
   const router = useRouter();
 
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
+    setSubmitting(true);
     sellerLogin(data).then((response) => {
       if (response.message) {
         setError(response.field, {
           message: response.message,
         });
+        setSubmitting(false);
+        return;
       }
-      if (response.data?.token && response.cookies) {
-        document.cookie = `${response.cookies[0]}`;
-        router.push("/");
-      }
+      router.push("/");
     });
   };
 
   return (
     <div className="w-full lg:grid lg:grid-cols-2">
       <div className="flex items-center justify-center">
-        <div className="mx-auto grid w-[350px] gap-6">
-          <header className="flex items-center gap-1">
-            <ChevronLeft />
-            <Link className="font-medium" href="/">
-              На головну
-            </Link>
-          </header>
+        <div className="mx-auto grid w-[350px] gap-6 px-3">
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Вхід в аккаунт продавця</h1>
           </div>
@@ -91,11 +88,13 @@ export default function Page() {
               <p className="text-sm text-red-500">{errors.root?.message}</p>
             )}
             <Button
+              disabled={isSubmitting}
               onClick={handleSubmit(onSubmit)}
               type="submit"
               className="w-full"
             >
-              Увійти
+              {!isSubmitting && "Увійти"}
+              {isSubmitting && <Loader2 className="animate-spin" />}
             </Button>
           </div>
           <div className="text-center text-sm">
