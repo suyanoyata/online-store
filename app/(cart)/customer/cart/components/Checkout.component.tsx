@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import useCartStore, { ICartData } from "@/context/customer_cart.store";
 import { Loader2 } from "lucide-react";
 import { api } from "@/lib/axios.config";
+import { useRouter } from "next/navigation";
 
 const CheckoutField = ({
   title,
@@ -97,6 +98,8 @@ export const CheckoutDesktop = () => {
     },
   ];
 
+  const router = useRouter();
+
   return (
     <aside className="flex-1 max-w-[260px] sticky top-16 max-xl:hidden h-[200px]">
       <h1 className="text-black font-semibold p-2 text-right text-lg mb-3">
@@ -116,6 +119,7 @@ export const CheckoutDesktop = () => {
       <Button
         onClick={() => {
           orderItems(cartData, setCartData);
+          router.push("/customer/orders");
         }}
         className="w-full mt-3"
       >
@@ -143,6 +147,8 @@ export const CheckoutMobile = () => {
     },
   ];
 
+  const router = useRouter();
+
   return (
     <div className="fixed w-full border-b border-zinc-100 xl:hidden bottom-0 rounded-t-lg px-3 py-4 flex flex-col z-10 bg-white">
       <h1 className="text-black font-semibold text-xl mb-3">
@@ -162,6 +168,7 @@ export const CheckoutMobile = () => {
       <Button
         onClick={() => {
           orderItems(cartData, setCartData);
+          router.push("/customer/orders");
         }}
         className="w-full mt-4 h-10"
       >

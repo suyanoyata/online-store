@@ -49,12 +49,14 @@ export default function Header() {
               Збірка
             </Link>
           )}
-          <Link
-            href="/faq/sellers"
-            className="ml-3 text-sm font-medium text-zinc-800 sm:h-6"
-          >
-            Продавцям
-          </Link>
+          {credentials && credentials?.type !== "customer" && (
+            <Link
+              href="/faq/sellers"
+              className="ml-3 text-sm font-medium text-zinc-800 sm:h-6"
+            >
+              Продавцям
+            </Link>
+          )}
         </div>
         <HeaderProfile store={credentials} />
         {experiments.DISABLE_SEARCH_APPEARANCE.CONTROL_VALUE == 0 && (

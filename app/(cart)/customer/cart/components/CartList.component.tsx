@@ -85,7 +85,7 @@ export const CartList = () => {
     return (
       <div className="flex-1 h-60 items-center justify-center flex flex-col">
         <div className="bg-zinc-100 rounded-full p-4">
-          <ShoppingCart />
+          <ShoppingCart className="text-zinc-500" strokeWidth={2} />
         </div>
         <p className="text-sm text-zinc-400 font-medium mt-3 mx-4 text-center">
           Ваша корзина порожня. Сюди додається товар коли ви натискаєте на

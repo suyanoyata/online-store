@@ -36,9 +36,17 @@ export default async function Page() {
 
       {orders.map((order) => (
         <div key={order.id}>
-          <h1 className="font-bold text-lg mt-2">
-            Замовлення {order.prettyOrderId}
-          </h1>
+          <div className="flex items-baseline max-sm:flex-col">
+            <h1 className="font-bold text-lg mt-2">
+              Замовлення {order.prettyOrderId}
+            </h1>
+            <p className="ml-2 max-sm:ml-0">
+              {new Intl.DateTimeFormat("uk-UK", {
+                dateStyle: "full",
+                timeStyle: "medium",
+              }).format(new Date(order.orderDate))}
+            </p>
+          </div>
           {order.orderItems.map((product) => (
             <Link
               href={`/products/view/${product.id}`}
@@ -61,7 +69,7 @@ export default async function Page() {
               <p className="font-medium">{product.product_title}</p>
             </Link>
           ))}
-          <p className="font-medium text-zinc-500">
+          <p className="font-medium text-zinc-500 mb-12">
             Вартість замовлення:{" "}
             <span className="text-black">{order.orderTotal} UAH</span>
           </p>

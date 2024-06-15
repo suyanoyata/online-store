@@ -183,7 +183,7 @@ const order_product = async (productsIds: string[], userId: string) => {
     });
 
   if (products.length == 0) {
-    return { status: 400, message: "No products found, can't order." };
+    throw { message: "No products found, can't order." };
   }
 
   let orderTotal = 0;
