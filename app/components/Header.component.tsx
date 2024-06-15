@@ -1,7 +1,11 @@
-import { Package, Search, ShoppingCart } from "lucide-react";
+import { Package, Search } from "lucide-react";
 import HeaderNavigation from "./header/navigation";
 import Link from "next/link";
-import { HeaderProfile } from "./header/Profile.component";
+import {
+  HeaderCartButton,
+  HeaderProfile,
+  HeaderProfileSpecificLinks,
+} from "./header/Profile.component";
 import { headers } from "next/headers";
 import { experiments } from "@/constants/constants";
 import { ICustomer } from "@/types/Customer";
@@ -40,24 +44,7 @@ export default function Header() {
           <Package />
         </Link>
         <HeaderNavigation />
-        <div className="flex items-center small:hidden">
-          {credentials && credentials?.type !== "seller" && (
-            <Link
-              className="ml-3 text-sm font-medium text-zinc-800 sm:h-6"
-              href="/build"
-            >
-              Збірка
-            </Link>
-          )}
-          {credentials && credentials?.type !== "customer" && (
-            <Link
-              href="/faq/sellers"
-              className="ml-3 text-sm font-medium text-zinc-800 sm:h-6"
-            >
-              Продавцям
-            </Link>
-          )}
-        </div>
+        <HeaderProfileSpecificLinks />
         <HeaderProfile store={credentials} />
         {experiments.DISABLE_SEARCH_APPEARANCE.CONTROL_VALUE == 0 && (
           <HeaderButton>
@@ -65,11 +52,7 @@ export default function Header() {
           </HeaderButton>
         )}
         {/* <Cart /> */}
-        {credentials && credentials?.type !== "seller" && (
-          <Link href="/customer/cart">
-            <ShoppingCart size={18} strokeWidth={2.4} />
-          </Link>
-        )}
+        <HeaderCartButton />
       </div>
     </header>
   );

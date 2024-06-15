@@ -34,7 +34,9 @@ export const AddToCartButton = ({ product }: { product: IBaseProduct }) => {
 
   return (
     <Button
-      disabled={throttle || cartData[product.type]?.id === product.id}
+      disabled={
+        throttle || (cartData && cartData[product.type]?.id === product.id)
+      }
       className={`my-3 w-[170px] max-sm:w-full select-none ${cartData[product.type]?.id === product.id ? "cursor-not-allowed" : "cursor-default"}`}
       onClick={addToCart}
     >

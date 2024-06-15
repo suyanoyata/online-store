@@ -20,6 +20,7 @@ export default function Page() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<LoginFormData>();
 
@@ -49,6 +50,11 @@ export default function Page() {
             });
           router.push("/");
         }
+      })
+      .catch((error) => {
+        setError(error.response.data.field, {
+          message: error.response.data.message,
+        });
       });
   };
 
@@ -56,12 +62,6 @@ export default function Page() {
     <div className="w-full flex lg:flex-row">
       <div className="flex items-center justify-center flex-1 px-3">
         <div className="mx-auto grid w-[350px] gap-6">
-          <header className="flex items-center gap-1">
-            <ChevronLeft />
-            <Link className="font-medium" href="/">
-              На головну
-            </Link>
-          </header>
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Вхід в аккаунт</h1>
           </div>

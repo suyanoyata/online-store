@@ -117,9 +117,12 @@ export const CheckoutDesktop = () => {
         </div>
       )}
       <Button
+        disabled={cartData == null}
         onClick={() => {
           orderItems(cartData, setCartData);
-          router.push("/customer/orders");
+          setTimeout(() => {
+            router.push("/customer/orders");
+          }, 1500);
         }}
         className="w-full mt-3"
       >
@@ -166,9 +169,12 @@ export const CheckoutMobile = () => {
           </CheckoutField>
         ))}
       <Button
+        disabled={cartData == null}
         onClick={() => {
           orderItems(cartData, setCartData);
-          router.push("/customer/orders");
+          setTimeout(() => {
+            router.push("/customer/orders");
+          }, 1500);
         }}
         className="w-full mt-4 h-10"
       >

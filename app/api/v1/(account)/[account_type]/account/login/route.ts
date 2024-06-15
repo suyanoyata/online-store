@@ -20,8 +20,8 @@ export async function POST(
     cookies().set("access-token", loginResponse.token);
 
     return Response.json(loginResponse);
-  } catch (e) {
-    return Response.json(e, {
+  } catch (error) {
+    return Response.json(error, {
       status: 400,
     });
   }

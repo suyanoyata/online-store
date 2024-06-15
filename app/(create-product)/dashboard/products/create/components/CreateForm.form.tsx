@@ -363,6 +363,7 @@ export const CreateForm = () => {
         memory_clock: parseInt(products.memory_clock?.toString()),
         memory_size: parseInt(products.memory_size?.toString()),
         required_power: parseInt(products.required_power?.toString()),
+        drive_type: products.drive_type.toUpperCase(),
       },
       {
         withCredentials: true,

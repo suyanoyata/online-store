@@ -15,22 +15,24 @@ export default function Page() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<LoginFormData>();
 
   const router = useRouter();
 
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
-    sellerLogin(data)
-      .then((response) => {
-        if (response.data.token && response.cookies) {
-          document.cookie = `${response.cookies[0]}`;
-          router.push("/");
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    sellerLogin(data).then((response) => {
+      if (response.message) {
+        setError(response.field, {
+          message: response.message,
+        });
+      }
+      if (response.data?.token && response.cookies) {
+        document.cookie = `${response.cookies[0]}`;
+        router.push("/");
+      }
+    });
   };
 
   return (
@@ -85,6 +87,9 @@ export default function Page() {
                 </p>
               )}
             </div>
+            {errors.root?.message && (
+              <p className="text-sm text-red-500">{errors.root?.message}</p>
+            )}
             <Button
               onClick={handleSubmit(onSubmit)}
               type="submit"

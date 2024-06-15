@@ -32,7 +32,8 @@ const create_account = async (
 
   if (exists) {
     throw {
-      error: "User with this email already exists",
+      field: "email",
+      message: "Користувач з такою поштою вже існує",
     };
   }
 
@@ -44,7 +45,12 @@ const create_account = async (
     },
   });
 
-  return create;
+  const account = GetUserSchema.parse(create);
+  const cookie = CookieUserSchema.parse(account);
+
+  const token = generateToken(cookie.id, type);
+
+  return { account, token };
 };
 
 const login_account = async ({
@@ -80,7 +86,10 @@ const login_account = async ({
   }
 
   if (!dbUser) {
-    throw "The user does not exist";
+    throw {
+      field: "email",
+      message: "Такого користувача не існує",
+    };
   }
 
   const match = await bcrypt.compare(password, dbUser.password);
@@ -92,7 +101,10 @@ const login_account = async ({
     const token = generateToken(cookie.id, account_type);
     return { user, token };
   } else {
-    throw "Incorrect password";
+    throw {
+      field: "password",
+      message: "Неправильний пароль",
+    };
   }
 };
 
