@@ -8,7 +8,6 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: app_title,
-  description: "A little PC online-store with a computer configurator",
 };
 
 export default function RootLayout({
@@ -20,9 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={inter.className}
-        style={{
-          fontFamily: "-apple-system, BlinkMacSystemFont",
-        }}
+        // style={{
+        //   fontFamily: "-apple-system, BlinkMacSystemFont",
+        // }}
       >
         <Header />
         <main>{children}</main>
