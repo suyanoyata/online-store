@@ -5,6 +5,7 @@ import useCartStore, { ICartData } from "@/context/customer_cart.store";
 import { Loader2 } from "lucide-react";
 import { api } from "@/lib/axios.config";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const CheckoutField = ({
   title,
@@ -83,6 +84,8 @@ function delivery_price(cartData: ICartData): number {
 export const CheckoutDesktop = () => {
   const { cartData, throttle, setCartData } = useCartStore();
 
+  const [pendingCheckout, setPendingCheckout] = useState<boolean>(false);
+
   const checkout_fields = [
     {
       title: "Вартість доставки",
@@ -117,8 +120,9 @@ export const CheckoutDesktop = () => {
         </div>
       )}
       <Button
-        disabled={cartData == null}
+        disabled={cartData == null || pendingCheckout}
         onClick={() => {
+          setPendingCheckout(true);
           orderItems(cartData, setCartData);
           setTimeout(() => {
             router.push("/customer/orders");
@@ -126,7 +130,8 @@ export const CheckoutDesktop = () => {
         }}
         className="w-full mt-3"
       >
-        Замовити
+        {!pendingCheckout && "Замовити"}
+        {pendingCheckout && <Loader2 className="animate-spin" />}
       </Button>
     </aside>
   );
@@ -152,6 +157,8 @@ export const CheckoutMobile = () => {
 
   const router = useRouter();
 
+  const [pendingCheckout, setPendingCheckout] = useState<boolean>(false);
+
   return (
     <div className="fixed w-full border-b border-zinc-100 xl:hidden bottom-0 rounded-t-lg px-3 py-4 flex flex-col z-10 bg-white">
       <h1 className="text-black font-semibold text-xl mb-3">
@@ -169,8 +176,9 @@ export const CheckoutMobile = () => {
           </CheckoutField>
         ))}
       <Button
-        disabled={cartData == null}
+        disabled={cartData == null || pendingCheckout}
         onClick={() => {
+          setPendingCheckout(true);
           orderItems(cartData, setCartData);
           setTimeout(() => {
             router.push("/customer/orders");
@@ -178,7 +186,8 @@ export const CheckoutMobile = () => {
         }}
         className="w-full mt-4 h-10"
       >
-        Замовити
+        {!pendingCheckout && "Замовити"}
+        {pendingCheckout && <Loader2 className="animate-spin" />}
       </Button>
     </div>
   );

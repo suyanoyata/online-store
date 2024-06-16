@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { product_types } from "@/constants/constants";
 import { api } from "@/lib/axios.config";
-import { CameraOff } from "lucide-react";
+import { CameraOff, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export type ProductTypes =
@@ -350,31 +351,38 @@ export const CreateForm = () => {
     },
   ];
 
+  const route = useRouter();
+
   function create_product() {
-    api.post(
-      `/api/v1/products/add/${products.type}`,
-      {
-        ...products,
-        product_price: parseInt(products.product_price?.toString()),
-        core_count: parseInt(products.core_count?.toString()),
-        thread_count: parseInt(products.thread_count?.toString()),
-        psu_capacity: parseInt(products.psu_capacity?.toString()),
-        core_clock: parseFloat(products.core_clock?.toString()),
-        memory_clock: parseInt(products.memory_clock?.toString()),
-        memory_size: parseInt(products.memory_size?.toString()),
-        required_power: parseInt(products.required_power?.toString()),
-        drive_type: products.drive_type?.toUpperCase(),
-        drive_capacity: parseInt(products.drive_capacity?.toString()),
-        drive_read_speed: parseInt(products.drive_read_speed?.toString()),
-        drive_write_speed: parseInt(products.drive_write_speed?.toString()),
-        ram_speed: parseInt(products.ram_speed?.toString()),
-        ram_count: parseInt(products.ram_count?.toString()),
-        ram_size: parseInt(products.ram_size?.toString()),
-      },
-      {
-        withCredentials: true,
-      },
-    );
+    setSubmitting(true);
+    api
+      .post(
+        `/api/v1/products/add/${products.type}`,
+        {
+          ...products,
+          product_price: parseInt(products.product_price?.toString()),
+          core_count: parseInt(products.core_count?.toString()),
+          thread_count: parseInt(products.thread_count?.toString()),
+          psu_capacity: parseInt(products.psu_capacity?.toString()),
+          core_clock: parseFloat(products.core_clock?.toString()),
+          memory_clock: parseInt(products.memory_clock?.toString()),
+          memory_size: parseInt(products.memory_size?.toString()),
+          required_power: parseInt(products.required_power?.toString()),
+          drive_type: products.drive_type?.toUpperCase(),
+          drive_capacity: parseInt(products.drive_capacity?.toString()),
+          drive_read_speed: parseInt(products.drive_read_speed?.toString()),
+          drive_write_speed: parseInt(products.drive_write_speed?.toString()),
+          ram_speed: parseInt(products.ram_speed?.toString()),
+          ram_count: parseInt(products.ram_count?.toString()),
+          ram_size: parseInt(products.ram_size?.toString()),
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then(() => {
+        route.push("/");
+      });
   }
 
   const PowerRadioGroup = () => {
@@ -535,6 +543,8 @@ export const CreateForm = () => {
     );
   };
 
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+
   return (
     <>
       <h1 className="text-2xl mt-2 font-bold">Оберіть тип товару</h1>
@@ -600,8 +610,13 @@ export const CreateForm = () => {
         </div>
         <ProductPreviewImage />
       </div>
-      <Button className="my-2 mobile:w-full" onClick={create_product}>
-        Створити товар
+      <Button
+        disabled={isSubmitting}
+        className="my-2 mobile:w-full w-[145px]"
+        onClick={create_product}
+      >
+        {!isSubmitting && "Створити товар"}
+        {isSubmitting && <Loader2 className="animate-spin" />}
       </Button>
     </>
   );

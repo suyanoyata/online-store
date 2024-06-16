@@ -37,7 +37,7 @@ export const AddToCartButton = ({ product }: { product: IBaseProduct }) => {
       disabled={
         throttle || (cartData && cartData[product.type]?.id === product.id)
       }
-      className={`my-3 w-[170px] max-sm:w-full select-none ${cartData[product.type]?.id === product.id ? "cursor-not-allowed" : "cursor-default"}`}
+      className={`my-3 w-[170px] max-sm:w-full select-none ${cartData && cartData[product.type]?.id === product.id ? "cursor-not-allowed" : "cursor-default"}`}
       onClick={addToCart}
     >
       {throttle && <Loader2 className="animate-spin" />}

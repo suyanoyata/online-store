@@ -39,8 +39,8 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full lg:grid lg:grid-cols-2">
-      <div className="flex items-center justify-center">
+    <div className="w-full flex lg:flex-row">
+      <div className="flex items-center justify-center flex-1 px-3 h-[calc(100vh-45px)]">
         <div className="mx-auto grid w-[350px] gap-6 px-3">
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Вхід в аккаунт продавця</h1>
@@ -105,7 +105,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <div className="hidden bg-muted lg:block h-screen"></div>
+      <div className="bg-muted flex-1 max-sm:hidden h-screen"></div>
     </div>
   );
 }

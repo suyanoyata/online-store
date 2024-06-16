@@ -9,6 +9,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "@/lib/axios.config";
 import { useRouter } from "next/navigation";
 import useStore, { AuthState } from "@/context/store";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 type RegisterFormData = {
   name: string;
@@ -29,6 +31,8 @@ export default function Page() {
 
   const { setAccountType, setAuthState, setCredentials } = useStore();
 
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+
   const onSubmit: SubmitHandler<RegisterFormData> = (data) => {
     if (data.password !== data.confirm_password) {
       setError("password", {
@@ -38,6 +42,8 @@ export default function Page() {
         message: "Паролі не співпадають",
       });
     }
+
+    setSubmitting(true);
 
     api
       .post(
@@ -70,12 +76,13 @@ export default function Page() {
         setError(e.response.data.field, {
           message: e.response.data.message,
         });
+        setSubmitting(false);
       });
   };
 
   return (
     <div className="w-full flex lg:grow">
-      <div className="flex items-center justify-center flex-1 px-3">
+      <div className="flex items-center justify-center flex-1 px-3 h-[calc(100vh-45px)]">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Створення аккаунту</h1>
@@ -164,11 +171,13 @@ export default function Page() {
               <p className="text-sm text-red-500">{errors.root?.message}</p>
             )}
             <Button
+              disabled={isSubmitting}
               onClick={handleSubmit(onSubmit)}
               type="submit"
               className="w-full"
             >
-              Створити
+              {!isSubmitting && "Створити"}
+              {isSubmitting && <Loader2 className="animate-spin" />}
             </Button>
           </div>
           <div className="text-center text-sm">
@@ -179,7 +188,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <div className="bg-muted flex-1 mobile:hidden h-screen"></div>
+      <div className="bg-muted flex-1 max-sm:hidden h-screen"></div>
     </div>
   );
 }
