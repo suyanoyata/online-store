@@ -242,6 +242,9 @@ const get_user_orders = async (userId: string) => {
     where: {
       orderUserId: userId,
     },
+    orderBy: {
+      orderDate: "desc",
+    },
   });
 
   const newOrdersObject = await Promise.all(

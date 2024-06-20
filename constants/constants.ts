@@ -9,7 +9,7 @@ export const experiments = {
       "Sentry is disabled for performance and middleware performance purpose",
   },
   USE_FUNNY_NOT_FOUND_IMAGE: {
-    CONTROL_VALUE: 1,
+    CONTROL_VALUE: 0,
     REASON: "",
   },
   DISABLE_SEARCH_APPEARANCE: {

@@ -88,10 +88,9 @@ export const CartList = () => {
           <ShoppingCart className="text-zinc-500" strokeWidth={2} />
         </div>
         <p className="text-sm text-zinc-400 mt-3 mx-4 text-center">
-          Ваша корзина порожня. Сюди додається товар коли ви натискаєте на
-          кнопку{" "}
-          <span className="text-blue-500 font-medium">Додати в корзину</span>{" "}
-          або обираєте товар в{" "}
+          Ваш кошик порожній. Сюди додається товар коли ви натискаєте на кнопку{" "}
+          <span className="text-blue-500 font-medium">Додати в кошик</span> або
+          обираєте товар в{" "}
           <Link
             href="/build"
             className="text-blue-500 hover:underline font-medium"

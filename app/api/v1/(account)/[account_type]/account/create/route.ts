@@ -3,9 +3,13 @@ import { RegisterSchema } from "@/app/api/(types)/zod/user.schema";
 import { expirationDays } from "@/constants/constants";
 import { cookies } from "next/headers";
 
+type RegisterPayload = {
+  account_type: "sellers" | "customers";
+};
+
 export async function POST(
   request: Request,
-  { params }: { params: { account_type: "sellers" | "customers" } },
+  { params }: { params: RegisterPayload },
 ) {
   const credentials = await request.json();
 

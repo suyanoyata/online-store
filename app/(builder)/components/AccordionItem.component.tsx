@@ -60,7 +60,7 @@ export const AccordionProduct = ({
         <Link
           href={`/products/view/${product.id}`}
           target="_blank"
-          className="font-semibold text-md hover:underline cursor-pointer text-ellipsis text-nowrap overflow-hidden"
+          className="font-semibold text-md hover:underline cursor-pointer text-ellipsis text-nowrap overflow-hidden w-[calc(100vw-260px)] flex"
         >
           {product.product_title}
         </Link>

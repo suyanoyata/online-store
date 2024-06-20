@@ -1,4 +1,4 @@
-import { JwtPayload, sign, verify } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 import { user_service } from "@/app/api/(services)/user.service";
 import { cookies, headers } from "next/headers";
 
@@ -10,13 +10,15 @@ export const generateToken = (id: string, type: string) => {
   return token;
 };
 
-export const validateAuthToken = (): {
+type TokenResponse = {
   data?: {
     id: string;
     type: string;
   };
   error?: string;
-} => {
+};
+
+export const validateAuthToken = (): TokenResponse => {
   const headerList = headers();
   const token =
     cookies().get("access-token")?.value || headerList.get("access-token");
@@ -24,12 +26,12 @@ export const validateAuthToken = (): {
     if (!token) {
       throw Error();
     }
+
     const decodedData = verify(token, secret);
 
     return {
-      // @ts-ignore
       data: decodedData,
-    };
+    } as TokenResponse;
   } catch (e) {
     return { error: "You are not authorized" };
   }

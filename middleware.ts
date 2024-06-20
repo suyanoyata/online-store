@@ -1,10 +1,7 @@
-import { LOG, LOG_LEVEL } from "another-colored-logger";
 import { api } from "@/lib/axios.config";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { experiments } from "./constants/constants";
-
-const inaccessible_seller = ["/customer/cart", "/build"];
 
 async function account_sentry(request: NextRequest) {
   const currentUser = request.cookies.get("access-token")?.value;
@@ -44,6 +41,8 @@ export async function middleware(request: NextRequest) {
       return Response.redirect(new URL("/", request.url));
     }
   }
+
+  const inaccessible_seller = ["/customer/cart", "/build"];
 
   if (
     inaccessible_seller.some((value) =>

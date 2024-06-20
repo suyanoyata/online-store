@@ -43,9 +43,11 @@ export const AddToCartButton = ({ product }: { product: IBaseProduct }) => {
       {throttle && <Loader2 className="animate-spin" />}
       {!throttle && (
         <span>
-          {cartData[product.type]?.id === product.id
-            ? "Додано в корзину"
-            : "Додати в корзину"}
+          {account_type == "customer" &&
+          cartData &&
+          cartData[product.type]?.id === product.id
+            ? "Додано в кошик"
+            : "Додати в кошик"}
         </span>
       )}
     </Button>

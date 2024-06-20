@@ -17,12 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={inter.className}
-        // style={{
-        //   fontFamily: "-apple-system, BlinkMacSystemFont",
-        // }}
-      >
+      <body className={inter.className}>
         <Header />
         <main>{children}</main>
       </body>

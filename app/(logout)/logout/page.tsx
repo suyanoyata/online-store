@@ -15,6 +15,8 @@ export default function Page() {
     setCredentials(null);
     setAuthState(AuthState.UNAUTHENTICATED);
 
+    localStorage.clear();
+
     document.cookie = `access-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 
     router.push("/");
