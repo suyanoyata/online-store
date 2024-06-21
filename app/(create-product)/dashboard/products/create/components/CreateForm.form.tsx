@@ -382,6 +382,10 @@ export const CreateForm = () => {
       )
       .then(() => {
         route.push("/");
+      })
+      .catch(() => {
+        setFailed(true);
+        setSubmitting(false);
       });
   }
 
@@ -544,6 +548,7 @@ export const CreateForm = () => {
   };
 
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
+  const [failed, setFailed] = useState<boolean>(false);
 
   return (
     <>
@@ -552,6 +557,7 @@ export const CreateForm = () => {
         value={products.type}
         defaultValue={product_types[0].id}
         onValueChange={(value: ProductTypes) => {
+          setFailed(false);
           setProducts({
             ...products,
             type: value,
@@ -572,6 +578,7 @@ export const CreateForm = () => {
           {general_text_sources.map((source, index) => (
             <Input
               onChange={(event) => {
+                setFailed(false);
                 setProducts({
                   ...products,
                   [source.id]: event.target.value,
@@ -590,6 +597,7 @@ export const CreateForm = () => {
                 source.type === "input" && (
                   <Input
                     onChange={(event) => {
+                      setFailed(false);
                       setProducts({
                         ...products,
                         [source.id]: event.target.value,
@@ -610,6 +618,12 @@ export const CreateForm = () => {
         </div>
         <ProductPreviewImage />
       </div>
+      {failed && (
+        <p className="text-sm text-red-500 font-medium mt-3">
+          Сталася помилка під час створення товару, перевірте введені поля, та
+          спробуйте ще раз.
+        </p>
+      )}
       <Button
         disabled={isSubmitting}
         className="my-2 mobile:w-full w-[145px]"

@@ -31,7 +31,7 @@ export async function middleware(request: NextRequest) {
   const account = await account_sentry(request);
 
   if (request.nextUrl.pathname.startsWith("/dashboard/products/create")) {
-    if (account.type == "customer" || account.type == null) {
+    if (account?.type == "customer" || account?.type == null) {
       return Response.redirect(new URL("/", request.url));
     }
   }
