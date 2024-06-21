@@ -118,6 +118,45 @@ const add_product = async (
     },
   });
 };
+
+const delete_product = async (sellerId: string, productId: string) => {
+  const product = await prisma.product.findUnique({
+    where: {
+      id: productId,
+    },
+  });
+
+  if (!product) {
+    throw {
+      message: "No such product.",
+    };
+  }
+
+  if (product?.sellerId != sellerId) {
+    throw {
+      message: "You are not owner of this product",
+    };
+  }
+
+  try {
+    await prisma.productDetails.delete({
+      where: {
+        id: product.productDetailsId,
+      },
+    });
+
+    await prisma.product.delete({
+      where: {
+        id: product.id,
+      },
+    });
+  } catch (e) {
+    throw {
+      message: "Couldn't delete product.",
+    };
+  }
+};
+
 const get_product_by_id = async (id: string) => {
   const product = await prisma.product
     .findUnique({
@@ -274,5 +313,6 @@ export const shop_service = {
     add_product,
     order_product,
     get_user_orders,
+    delete_product,
   },
 };

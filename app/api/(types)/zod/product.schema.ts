@@ -40,6 +40,7 @@ export const schemas = {
       "LGA2011",
       "LGA2011-v3",
       "LGA2066",
+      "1700",
     ]),
     motherboard_chipset: z.enum([
       "A320",
